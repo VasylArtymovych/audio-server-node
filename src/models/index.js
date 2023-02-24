@@ -1,4 +1,3 @@
-a;
 const TrackModel = require('./trackModel');
 const CommentModel = require('./commentModel');
 const AlbumModel = require('./albumModel');

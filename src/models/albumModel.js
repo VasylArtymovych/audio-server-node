@@ -10,4 +10,4 @@ const albumSchema = new Schema({
   tracks: [{ type: Schema.Types.ObjectId, ref: 'Track' }],
 });
 
-module.exports = nodel('Album', albumSchema);
+module.exports = model('Album', albumSchema);

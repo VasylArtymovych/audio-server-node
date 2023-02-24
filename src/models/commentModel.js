@@ -8,4 +8,4 @@ const commentSchema = new Schema({
   trackId: { type: Schema.Types.ObjectId },
 });
 
-module.exports = nodel('Comment', commentSchema);
+module.exports = model('Comment', commentSchema);

@@ -3,6 +3,7 @@ const http = require('http');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { config } = require('./config');
+const { helpers } = require('./helpers');
 const { trackRouter, albumRouter } = require('./routes');
 
 const app = express();
@@ -47,6 +48,9 @@ const startServer = () => {
 
   app.use('/tracks', trackRouter);
   app.use('/albums', albumRouter);
+
+  app.use(helpers.unknownRoute);
+  app.use(helpers.errorHandler);
 
   http.createServer(app).listen(config.server.port, () => {
     console.log(`server is beeing started on port: ${config.server.port}`);
