@@ -8,7 +8,7 @@ const trackSchema = new Schema(
 
     text: String,
 
-    listeners: Number,
+    trackListeners: Number,
 
     picture: { type: String, required: true },
 

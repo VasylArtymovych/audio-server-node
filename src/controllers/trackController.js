@@ -44,7 +44,7 @@ class TrackController {
     res.status(200).json({ status: 'Ok', tracks, page, limit });
   });
 
-  // Get one by name of track:
+  // Get tracks by name:
   searchByName = asyncHandler(async (req, res) => {
     let { query = '', page = 1, limit = 20 } = req.query;
     const skip = (parseInt(page) - 1) * limit;
@@ -59,9 +59,33 @@ class TrackController {
   getOneById = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
-    const track = await TrackService.getOneById(id);
+    const track = await (
+      await TrackService.getOneById(id)
+    ).populate('comments');
 
     res.status(200).json({ status: 'Ok', track });
+  });
+
+  // Update one by id:
+  // updateOneById = asyncHandler(async (req, res) => {
+  //   const { id } = req.params;
+  //   const track = await TrackService.updateOneById(id, req.body);
+
+  //   res.status(200).json({ status: 'Success', track });
+  // });
+
+  // Delete one by id:
+  deleteOneById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const deletedTrack = await TrackService.deleteOneById(id);
+
+    res.status(200).json({ status: 'Success', id: deletedTrack._id });
+  });
+  // Add comment:
+  addComment = asyncHandler(async (req, res) => {
+    const comment = await TrackService.addComment(req.body);
+    res.status(200).json({ status: 'Success', comment });
   });
 }
 

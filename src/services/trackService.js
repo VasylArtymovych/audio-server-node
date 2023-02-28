@@ -1,5 +1,5 @@
 const { CustomError } = require('../helpers');
-const { TrackModel } = require('../models');
+const { TrackModel, CommentModel } = require('../models');
 
 class TrackService {
   createTrack = async (body, audioUrl, pictureUrl) => {
@@ -39,9 +39,36 @@ class TrackService {
 
   getOneById = async (id) => {
     const track = await TrackModel.findById(id);
-    if (!track) throw new CustomError(`Track with id: ${id} is not found`, 400);
+    if (!track)
+      throw new CustomError(`Track with id: ${id} was not found`, 400);
 
     return track;
+  };
+
+  deleteOneById = async (id) => {
+    const track = await TrackModel.findById(id);
+    if (!track)
+      throw new CustomError(`Track with id: ${id} was not found`, 400);
+
+    const deletedTrack = await TrackModel.findByIdAndDelete(id);
+    if (!deletedTrack) {
+      throw new CustomError(`Unable to delete track.`, 500);
+    }
+
+    return deletedTrack;
+  };
+
+  addComment = async (data) => {
+    const comment = await CommentModel.create({ ...data });
+    if (!comment) throw new CustomError(`Unable to create comment.`, 500);
+
+    const track = await TrackModel.updateOne(
+      { _id: comment.trackId },
+      { $push: { comments: comment._id } }
+    );
+    if (!track) throw new CustomError(`Unable to add comment list.`, 500);
+
+    return comment;
   };
 }
 

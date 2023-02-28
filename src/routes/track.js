@@ -13,9 +13,12 @@ router.post(
 
   TrackCtrl.createTrack
 );
+router.post('/comment', TrackCtrl.addComment);
 
 router.get('/', TrackCtrl.getAll);
 router.get('/search', TrackCtrl.searchByName);
 router.get('/getOne/:id', TrackCtrl.getOneById);
+// router.patch('/update/:id', TrackCtrl.updateOneById);
+router.delete('/delete/:id', TrackCtrl.deleteOneById);
 
 module.exports = router;
